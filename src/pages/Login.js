@@ -1,6 +1,61 @@
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Login() {
+    const navigate = useNavigate();
+    const [inputValue, setInputValue] = useState({
+        email: "",
+        password: "",
+    });
+    const { email, password } = inputValue;
+    const handleOnChange = (e) => {
+        const { name, value } = e.target;
+        setInputValue({
+            ...inputValue,
+            [name]: value,
+        });
+    };
+
+    const handleError = (err) =>
+        toast.error(err, {
+            position: "bottom-left",
+        });
+    const handleSuccess = (msg) =>
+        toast.success(msg, {
+            position: "bottom-left",
+        });
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const { data } = await axios.post(
+                "http://localhost:3030/login",
+                {
+                    ...inputValue,
+                },
+                { withCredentials: true }
+            );
+            console.log(data);
+            const { success, message } = data;
+            if (success) {
+                handleSuccess(message);
+                setTimeout(() => {
+                    navigate("/");
+                }, 1000);
+            } else {
+                handleError(message);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        setInputValue({
+            ...inputValue,
+            email: "",
+            password: "",
+        });
+    };
     return (
         <div style={{
             backgroundColor: "#4e73df",
@@ -24,9 +79,12 @@ export default function Login() {
                                             <div className="text-center">
                                                 <h1 className="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                             </div>
-                                            <form className="user">
+                                            <form className="user" onSubmit={handleSubmit}>
                                                 <div className="form-group">
                                                     <input
+                                                        name="email"
+                                                        value={email}
+                                                        onChange={handleOnChange}
                                                         type="email"
                                                         className="form-control form-control-user"
                                                         id="exampleInputEmail"
@@ -36,6 +94,9 @@ export default function Login() {
                                                 </div>
                                                 <div className="form-group">
                                                     <input
+                                                        name="password"
+                                                        value={password}
+                                                        onChange={handleOnChange}
                                                         type="password"
                                                         className="form-control form-control-user"
                                                         id="exampleInputPassword"
@@ -57,12 +118,12 @@ export default function Login() {
                                                         </label>
                                                     </div>
                                                 </div>
-                                                <a
-                                                    href="index.html"
+                                                <button
+                                                    type="submit"
                                                     className="btn btn-primary btn-user btn-block"
                                                 >
                                                     Login
-                                                </a>
+                                                </button>
                                                 <hr />
                                                 <a
                                                     href="index.html"
@@ -95,6 +156,7 @@ export default function Login() {
                     </div>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     )
 }

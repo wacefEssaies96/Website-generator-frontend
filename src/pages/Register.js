@@ -1,4 +1,64 @@
+import axios from "axios";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+
 export default function Register() {
+    const navigate = useNavigate();
+    const [inputValue, setInputValue] = useState({
+        email: "",
+        password: "",
+        firstname: "",
+        lastname: "",
+    });
+    const { email, password, firstname, lastname } = inputValue;
+    const handleOnChange = (e) => {
+        const { name, value } = e.target;
+        setInputValue({
+            ...inputValue,
+            [name]: value,
+        });
+    };
+
+    const handleError = (err) =>
+        toast.error(err, {
+            position: "bottom-left",
+        });
+    const handleSuccess = (msg) =>
+        toast.success(msg, {
+            position: "bottom-right",
+        });
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const { data } = await axios.post(
+                "http://localhost:3030/signup",
+                {
+                    ...inputValue,
+                },
+                { withCredentials: true }
+            );
+            const { success, message } = data;
+            if (success) {
+                handleSuccess(message);
+                setTimeout(() => {
+                    navigate("/");
+                }, 1000);
+            } else {
+                handleError(message);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        setInputValue({
+            ...inputValue,
+            email: "",
+            password: "",
+            firstname: "",
+            lastname: "",
+        });
+    };
     return (
         <div style={{
             backgroundColor: "#4e73df",
@@ -20,11 +80,14 @@ export default function Register() {
                                             <div className="text-center">
                                                 <h1 className="h4 text-gray-900 mb-4">Create an Account!</h1>
                                             </div>
-                                            <form className="user">
+                                            <form onSubmit={handleSubmit} className="user">
                                                 <div className="form-group row">
                                                     <div className="col-sm-6 mb-3 mb-sm-0">
                                                         <input
+                                                            name="firstname"
                                                             type="text"
+                                                            value={firstname}
+                                                            onChange={handleOnChange}
                                                             className="form-control form-control-user"
                                                             id="exampleFirstName"
                                                             placeholder="First Name"
@@ -32,6 +95,9 @@ export default function Register() {
                                                     </div>
                                                     <div className="col-sm-6">
                                                         <input
+                                                            name="lastname"
+                                                            value={lastname}
+                                                            onChange={handleOnChange}
                                                             type="text"
                                                             className="form-control form-control-user"
                                                             id="exampleLastName"
@@ -42,6 +108,9 @@ export default function Register() {
                                                 <div className="form-group">
                                                     <input
                                                         type="email"
+                                                        name="email"
+                                                        value={email}
+                                                        onChange={handleOnChange}
                                                         className="form-control form-control-user"
                                                         id="exampleInputEmail"
                                                         placeholder="Email Address"
@@ -50,27 +119,29 @@ export default function Register() {
                                                 <div className="form-group row">
                                                     <div className="col-sm-6 mb-3 mb-sm-0">
                                                         <input
+                                                            name="password"
+                                                            value={password}
+                                                            onChange={handleOnChange}
                                                             type="password"
                                                             className="form-control form-control-user"
                                                             id="exampleInputPassword"
                                                             placeholder="Password"
                                                         />
                                                     </div>
-                                                    <div className="col-sm-6">
+                                                    {/* <div className="col-sm-6">
                                                         <input
                                                             type="password"
                                                             className="form-control form-control-user"
                                                             id="exampleRepeatPassword"
                                                             placeholder="Repeat Password"
                                                         />
-                                                    </div>
+                                                    </div> */}
                                                 </div>
-                                                <a
-                                                    href="login.html"
-                                                    className="btn btn-primary btn-user btn-block"
+                                                <button
+                                                    type="submit" className="btn btn-primary btn-user btn-block"
                                                 >
                                                     Register Account
-                                                </a>
+                                                </button>
                                                 <hr />
                                                 <a
                                                     href="index.html"
@@ -93,9 +164,7 @@ export default function Register() {
                                                 </a>
                                             </div>
                                             <div className="text-center">
-                                                <a className="small" href="login.html">
-                                                    Already have an account? Login!
-                                                </a>
+                                                <Link className="small" to={"/login"}>Already have an account? Login!</Link>
                                             </div>
                                         </div>
                                     </div>
@@ -105,6 +174,7 @@ export default function Register() {
                     </div>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     )
 }

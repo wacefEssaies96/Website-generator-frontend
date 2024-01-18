@@ -3,6 +3,8 @@ import AdminLayout from './components/admin/AdminLayout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import ClientLayout from './components/client/ClientLayout';
+import "react-toastify/dist/ReactToastify.css"
+
 
 function App() {
   return (
