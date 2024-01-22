@@ -56,6 +56,18 @@ export default function Login() {
             password: "",
         });
     };
+    const googleAuth = () => {
+        window.open(
+            `http://localhost:3030/auth/google`,
+            "_self"
+        );
+    };
+    const linkedInAuth = () => {
+        window.open(
+            `http://localhost:3030/auth/linkedin`,
+            "_self"
+        );
+    };
     return (
         <div style={{
             backgroundColor: "#4e73df",
@@ -125,19 +137,27 @@ export default function Login() {
                                                     Login
                                                 </button>
                                                 <hr />
-                                                <a
-                                                    href="index.html"
-                                                    className="btn btn-google btn-user btn-block"
+                                                {/* <Button
+                                                    className="btn wd-btn-round-2 text-uppercase font-weight-bold mb-2 submit_button" style={{ borderRadius: "8000px", margin: "15px" }}
+                                                    value="Login google" onClick={googleAuth} ><AiFillGoogleCircle size={20}></AiFillGoogleCircle>Google</Button>
+                                                <Button
+                                                    className="btn wd-btn-round-2 text-uppercase font-weight-bold mb-2 submit_button" style={{ borderRadius: "8000px", margin: "15px" }}
+                                                    value="Login linkedIn" onClick={linkedInAuth} ><AiFillLinkedin size={20}></AiFillLinkedin>LinkedIn</Button> */}
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-success btn-user btn-block"
+                                                    onClick={googleAuth}
                                                 >
                                                     <i className="fab fa-google fa-fw" /> Login with Google
-                                                </a>
-                                                <a
+                                                </button>
+                                                {/* <button
                                                     href="index.html"
-                                                    className="btn btn-facebook btn-user btn-block"
+                                                    className="btn btn-linkedin btn-user btn-block"
+                                                    onClick={linkedInAuth}
                                                 >
-                                                    <i className="fab fa-facebook-f fa-fw" /> Login with
-                                                    Facebook
-                                                </a>
+                                                    <i className="fab fa-linkedin-f fa-fw" /> Login with
+                                                    LinkedIn
+                                                </button> */}
                                             </form>
                                             <hr />
                                             <div className="text-center">
