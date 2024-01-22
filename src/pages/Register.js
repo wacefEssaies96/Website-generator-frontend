@@ -31,6 +31,14 @@ export default function Register() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!firstname.trim()) return handleError("First name is required.");
+        if (!lastname.trim()) return handleError("Last name is required.");
+
+        // Email validation regex pattern
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) return handleError("Please enter a valid email address.");
+
+        if (password.length < 6) return handleError("Password must be at least 6 characters long.");
         try {
             const { data } = await axios.post(
                 "http://localhost:3030/signup",
@@ -58,6 +66,12 @@ export default function Register() {
             firstname: "",
             lastname: "",
         });
+    };
+    const googleAuth = () => {
+        window.open(
+            `http://localhost:3030/auth/google`,
+            "_self"
+        );
     };
     return (
         <div style={{
@@ -143,19 +157,20 @@ export default function Register() {
                                                     Register Account
                                                 </button>
                                                 <hr />
-                                                <a
-                                                    href="index.html"
-                                                    className="btn btn-google btn-user btn-block"
+                                                <button
+                                                    type="button"
+                                                    onClick={googleAuth}
+                                                    className="btn btn-success btn-user btn-block"
                                                 >
                                                     <i className="fab fa-google fa-fw" /> Register with Google
-                                                </a>
-                                                <a
+                                                </button>
+                                                {/* <a
                                                     href="index.html"
                                                     className="btn btn-facebook btn-user btn-block"
                                                 >
                                                     <i className="fab fa-facebook-f fa-fw" /> Register with
                                                     Facebook
-                                                </a>
+                                                </a> */}
                                             </form>
                                             <hr />
                                             <div className="text-center">
