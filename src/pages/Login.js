@@ -161,9 +161,9 @@ export default function Login() {
                                             </form>
                                             <hr />
                                             <div className="text-center">
-                                                <a className="small" href="forgot-password.html">
+                                                <Link className="small" to="/forget-password">
                                                     Forgot Password?
-                                                </a>
+                                                </Link>
                                             </div>
                                             <div className="text-center">
                                                 <Link className="small" to="/register">Create an Account!</Link>

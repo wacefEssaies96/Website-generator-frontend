@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ClientLayout from './components/client/ClientLayout';
 import "react-toastify/dist/ReactToastify.css"
+import ForgetPassword from './pages/ForgetPassword';
 
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route path='/login' element={<Login></Login>}></Route>
         <Route path='/register' element={<Register></Register>}></Route>
+        <Route path='/forget-password' element={<ForgetPassword></ForgetPassword>}></Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="" element={<></>} />
         </Route>

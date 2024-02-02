@@ -174,9 +174,9 @@ export default function Register() {
                                             </form>
                                             <hr />
                                             <div className="text-center">
-                                                <a className="small" href="forgot-password.html">
+                                                <Link className="small" to="/forget-password">
                                                     Forgot Password?
-                                                </a>
+                                                </Link>
                                             </div>
                                             <div className="text-center">
                                                 <Link className="small" to={"/login"}>Already have an account? Login!</Link>
